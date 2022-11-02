@@ -1,0 +1,10 @@
+git.sr.ht/~sircmpwn/getopt v1.0.0 h1:/pRHjO6/OCbBF4puqD98n6xtPEgE//oq5U8NXjP7ROc=
+git.sr.ht/~sircmpwn/getopt v1.0.0/go.mod h1:wMEGFFFNuPos7vHmWXfszqImLppbc0wEhh6JBfJIUgw=
+github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/emersion/go-mbox v1.0.3 h1:Kac75r/EGi6KZAz48HXal9q7EiaXNl+U5HZfyDz0LKM=
+github.com/emersion/go-mbox v1.0.3/go.mod h1:Yp9IVuuOYLEuMv4yjgDHvhb5mHOcYH6x92Oas3QqEZI=
+github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510 h1:El6M4kTTCOh6aBiKaUGG7oYTSPP8MxqL4YI3kZKwcP4=
+github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510/go.mod h1:pupxD2MaaD3pAXIBCelhxNneeOaAeabZDe5s4K6zSpQ=
+github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
+github.com/stretchr/testify v1.3.0/go.mod h1:M5WIy9Dh21IEIfnGCwXGc5bZfKNJtfHm1UVUgZn+9EI=
