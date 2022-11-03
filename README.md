@@ -10,7 +10,7 @@ Inspired by [caeml](https://github.com/ferdinandyb/caeml/).
 ### Installation
 
 ```sh
-go install github.com/konimarti/catbox
+go install github.com/konimarti/catbox@latest
 ```
 
 ### Usage

@@ -16,7 +16,7 @@ import (
 func main() {
 	args := make([]string, len(os.Args))
 	copy(args, os.Args)
-	opts, optind, err := getopt.Getopts(args, "c:h")
+	opts, optind, err := getopt.Getopts(args, "c:hv")
 	if err != nil {
 		panic(err)
 	}
@@ -28,6 +28,10 @@ func main() {
 		}
 		if opt.Option == 'h' {
 			usage()
+			return
+		}
+		if opt.Option == 'v' {
+			version()
 			return
 		}
 	}
@@ -100,7 +104,12 @@ func createCmd(s string) (*exec.Cmd, error) {
 
 func usage() {
 	usage := `
-	Usage: catbox [-h|-p|-c <cmd>] <mbox>
+	Usage: catbox [-h|-v|-c <cmd>] <mbox>
+
+	Options:
+		-h	Print usage.
+		-v	Print version.
+		-c cmd	Specify shell command.
 	
 	catbox will pipe every message from an mbox file as an input to a shell
 	command. A message counter is available as an shell variable $NR.
@@ -108,4 +117,8 @@ func usage() {
 	If no file is specified, catbox will read from stdin.
 	`
 	fmt.Println(usage)
+}
+
+func version() {
+	fmt.Println("Version 0.1.0")
 }
