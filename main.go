@@ -14,7 +14,9 @@ import (
 )
 
 func main() {
-	opts, _, err := getopt.Getopts(os.Args, "c:")
+	args := make([]string, len(os.Args))
+	copy(args, os.Args)
+	opts, optind, err := getopt.Getopts(args, "c:h")
 	if err != nil {
 		panic(err)
 	}
@@ -24,9 +26,26 @@ func main() {
 		if opt.Option == 'c' {
 			filter = opt.Value
 		}
+		if opt.Option == 'h' {
+			usage()
+			return
+		}
 	}
 
-	r := mbox.NewReader(os.Stdin)
+	var inputReader io.ReadCloser = os.Stdin
+	if len(args[optind:]) > 0 {
+		name := strings.Join(args[optind:], " ")
+		if _, err := os.Stat(name); err == nil {
+			inputReader, err = os.Open(name)
+			if err != nil {
+				panic(err)
+			}
+			defer inputReader.Close()
+		}
+
+	}
+
+	r := mbox.NewReader(inputReader)
 	for i := 1; ; i++ {
 
 		// get reader for next message
@@ -77,4 +96,16 @@ func createCmd(s string) (*exec.Cmd, error) {
 	cmd := exec.Command(args[0], args[1:]...)
 
 	return cmd, nil
+}
+
+func usage() {
+	usage := `
+	Usage: catbox [-h|-p|-c <cmd>] <mbox>
+	
+	catbox will pipe every message from an mbox file as an input to a shell
+	command. A message counter is available as an shell variable $NR.
+	
+	If no file is specified, catbox will read from stdin.
+	`
+	fmt.Println(usage)
 }
