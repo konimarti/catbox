@@ -18,7 +18,9 @@ func main() {
 	copy(args, os.Args)
 	opts, optind, err := getopt.Getopts(args, "c:h")
 	if err != nil {
-		panic(err)
+		fmt.Printf("Parsing options failed: %v\n", err)
+		usage()
+		return
 	}
 
 	var filter string = "cat"
