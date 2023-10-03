@@ -16,7 +16,7 @@ import (
 func main() {
 	args := make([]string, len(os.Args))
 	copy(args, os.Args)
-	opts, optind, err := getopt.Getopts(args, "c:hv")
+	opts, optind, err := getopt.Getopts(args, "c:h")
 	if err != nil {
 		panic(err)
 	}
@@ -28,10 +28,6 @@ func main() {
 		}
 		if opt.Option == 'h' {
 			usage()
-			return
-		}
-		if opt.Option == 'v' {
-			version()
 			return
 		}
 	}
@@ -57,24 +53,25 @@ func main() {
 		if errors.Is(err, io.EOF) {
 			break
 		} else if err != nil {
-			panic(err)
+			handleErr(i, err)
+			continue
 		}
 
 		// create command for every message
 		cmd, err := createCmd(filter)
 		if err != nil {
-			panic(err)
+			handleErr(i, err)
+			continue
 		}
 
 		// update cmd's env
-		env := os.Environ()
-		env = append(env, fmt.Sprintf("NR=%06d", i))
-		cmd.Env = env
+		cmd.Env = append(os.Environ(), fmt.Sprintf("NR=%06d", i))
 
 		// set new reader as stdin to cmd
 		cmdStdin, err := cmd.StdinPipe()
 		if err != nil {
-			panic(err)
+			handleErr(i, err)
+			continue
 		}
 		go func() {
 			defer cmdStdin.Close()
@@ -84,7 +81,8 @@ func main() {
 		// run command and collect output
 		output, err := cmd.CombinedOutput()
 		if err != nil {
-			panic(err)
+			handleErr(i, err)
+			continue
 		}
 
 		// flush command output to stdout
@@ -102,23 +100,22 @@ func createCmd(s string) (*exec.Cmd, error) {
 	return cmd, nil
 }
 
+func handleErr(i int, err error) {
+	fmt.Printf("skipping messgae %d. Error encountered: %v", i, err)
+}
+
 func usage() {
 	usage := `
-	Usage: catbox [-h|-v|-c <cmd>] <mbox>
+	Usage: catbox [-h|-c <cmd>] <mbox>
 
 	Options:
 		-h	Print usage.
-		-v	Print version.
 		-c cmd	Specify shell command.
 	
 	catbox will pipe every message from an mbox file as an input to a shell
-	command. A message counter is available as an shell variable $NR.
+	command. A message counter is available as a shell variable $NR.
 	
 	If no file is specified, catbox will read from stdin.
 	`
 	fmt.Println(usage)
-}
-
-func version() {
-	fmt.Println("Version 0.1.0")
 }
