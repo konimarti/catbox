@@ -15,7 +15,7 @@ go install github.com/konimarti/catbox@latest
 
 ### Usage
 
-Usage: `catbox [-h|-p|-c <cmd>] <mbox>`
+Usage: `catbox [-h|-c <cmd>] <mbox>`
 
 ### Integration with aerc
 
@@ -33,7 +33,7 @@ format in your local directory.
 - Show the message number counter:
 
 ```
-catbox -c "echo \$NR" test.mbox`
+catbox -c 'echo $NR' test.mbox`
 ```
 
 - Pipe every mbox message to caeml:
@@ -45,7 +45,7 @@ catbox -c caeml test.mbox
 - Save every mbox message in a separate file
 
 ```
-catbox -c "cat > message_\$NR" test.mbox
+catbox -c 'cat > message_$NR' test.mbox
 ```
 
 - Print only the first ten messages:
